@@ -1,0 +1,19 @@
+{
+  "name": "project-management-api",
+  "version": "1.0.0",
+  "description": "Project Camp Backend is a RESTful API service designed to support collaborative project management.",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "dev":"node index.js"
+  },
+  "keywords": [
+    "node",
+    "nodejs",
+    "express",
+    "backend",
+    "rest-api"
+  ],
+  "author": "Soumadip Banerjee",
+  "license": "ISC"
+}
