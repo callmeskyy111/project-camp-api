@@ -1,12 +1,15 @@
 import dotenv from "dotenv";
+import express from "express";
+dotenv.config();
 
-dotenv.config({
-  path: "./.env",
+const app = express();
+
+const PORT = process.env.PORT || 3000;
+
+app.get("/", (_, res) => {
+  res.send("<h1>Hello Project Camp API ✅</h1>");
 });
 
-const myusername = process.env.USER_NAME;
-const db = process.env.DB;
-
-console.log("Start of the project ✅");
-console.log("env username:", myusername);
-console.log("env db:", db);
+app.listen(PORT, () => {
+  console.log(`Server running on PORT - http://localhost:${PORT} ✅`);
+});
