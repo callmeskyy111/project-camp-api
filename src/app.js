@@ -18,6 +18,10 @@ app.use(
   })
 );
 
+// routes
+import healthCheckRouter from "./routes/healthCheck.route.js";
+app.use("/api/v1/health-check", healthCheckRouter);
+
 app.get("/", (_, res) => {
   res.send("Welcome to HomePage ✅");
 });
