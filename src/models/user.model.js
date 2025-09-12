@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import bcrypt from "bcrypt";
 
 const userSchema = new mongoose.Schema(
   {
@@ -56,7 +57,13 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-const UserModel =
-  mongoose.models.User || mongoose.model("User", userSchema);
+// hashing pre-hook()
+userSchema.pre("save", async function (next) {
+  if (!this.isModified("password")) return next; // only execute when password is being modified.
+  this.password = await bcrypt.hash(this.password, 10);
+  next();
+});
+
+const UserModel = mongoose.models.User || mongoose.model("User", userSchema);
 
 export default UserModel;
