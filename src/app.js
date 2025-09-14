@@ -20,7 +20,10 @@ app.use(
 
 // routes
 import healthCheckRouter from "./routes/healthCheck.route.js";
+import authRouter from "./routes/auth.routes.js";
+
 app.use("/api/v1/health-check", healthCheckRouter);
+app.use("/api/v1/auth", authRouter);
 
 app.get("/", (_, res) => {
   res.send("Welcome to HomePage ✅");
