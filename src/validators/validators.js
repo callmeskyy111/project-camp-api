@@ -5,26 +5,33 @@ const userRegisterValidator = () => {
     body("email")
       .trim()
       .notEmpty()
-      .withMessage("⚠️email is required!")
+      .withMessage("⚠️ email is required!")
       .isEmail()
-      .withMessage("🔴email is invalid!"),
+      .withMessage("🔴 email is invalid!"),
     body("username")
       .trim()
       .notEmpty()
-      .withMessage("⚠️username is required!")
-      .isLowercase("⚠️username must be in LOWERCASE")
+      .withMessage("⚠️ username is required!")
+      .isLowercase("⚠️ username must be in LOWERCASE")
       .isLength({ min: 3 })
-      .withMessage("⚠️username must be at least 3 characters long!"),
+      .withMessage("⚠️ username must be at least 3 characters long!"),
     body("password")
       .trim()
       .notEmpty()
-      .withMessage("⚠️password cannot be empty"),
+      .withMessage("⚠️ password cannot be empty"),
     body("fullName")
       .optional()
       .trim()
       .isEmpty()
-      .withMessage("⚠️fullName cannot be empty"),
+      .withMessage("⚠️ fullName cannot be empty"),
   ];
 };
 
-export { userRegisterValidator };
+const userLoginValidator = () => {
+  return [
+    body("email").optional().isEmail().withMessage("⚠️ Email is invalid!"),
+    body("password").notEmpty().withMessage("⚠️ Password is required"),
+  ];
+};
+
+export { userRegisterValidator, userLoginValidator };

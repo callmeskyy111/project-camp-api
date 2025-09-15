@@ -7,6 +7,7 @@ const app = express();
 app.use(express.json({ limit: "16kb" })); // limit - Optnl.
 app.use(express.urlencoded({ extended: true, limit: "16kb" }));
 app.use(express.static("public")); // serving static files.
+app.use(cookieParser());
 
 app.use(
   // cors config.
@@ -21,6 +22,7 @@ app.use(
 // routes
 import healthCheckRouter from "./routes/healthCheck.route.js";
 import authRouter from "./routes/auth.routes.js";
+import cookieParser from "cookie-parser";
 
 app.use("/api/v1/health-check", healthCheckRouter);
 app.use("/api/v1/auth", authRouter);

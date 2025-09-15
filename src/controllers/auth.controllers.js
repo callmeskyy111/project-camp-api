@@ -22,6 +22,8 @@ const generateAccessAndRefreshTokens = async (userId) => {
   }
 };
 
+// register controller
+
 const registerUser = asyncHandler(async (req, res) => {
   // receive data
   const { password, role, username, email } = req.body;
@@ -90,4 +92,58 @@ const registerUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser };
+// login controller
+const loginUser = asyncHandler(async (req, res) => {
+  // email based login
+  const { email, password } = req.body;
+
+  if (!email) {
+    throw new ApiError(400, "⚠️Email is required!");
+  }
+
+  const user = await UserModel.findOne({ email });
+
+  if (!user) {
+    throw new ApiError(400, "🔴ERR. User does not exist!");
+  }
+
+  const isPasswordValid = await user.isPasswordCorrect(password);
+
+  if (!isPasswordValid) {
+    throw new ApiError(400, "🔴ERR. Invalid credentials!");
+  }
+
+  // generate token
+  const { accessToken, refreshToken } = await generateAccessAndRefreshTokens(
+    user._id
+  );
+
+  // send limited-amount of data
+  const loggedInUser = await UserModel.findById(user._id).select(
+    "-password -refreshToken -emailVerificationToken -emailVerificationExpiry"
+  );
+
+  // setting tokens on the cookies
+  const options = {
+    httpOnly: true,
+    secure: true,
+  };
+
+  return res
+    .status(200)
+    .cookie("accessToken", accessToken, options)
+    .cookie("refreshToken", refreshToken, options)
+    .json(
+      new ApiResponse(
+        200,
+        {
+          user: loggedInUser,
+          accessToken,
+          refreshToken,
+        },
+        "User logged-in successfully ✅"
+      )
+    );
+});
+
+export { registerUser, loginUser };
