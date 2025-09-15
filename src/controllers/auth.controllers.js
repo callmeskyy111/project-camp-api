@@ -146,4 +146,15 @@ const loginUser = asyncHandler(async (req, res) => {
     );
 });
 
-export { registerUser, loginUser };
+// logOut controller
+
+export const logoutUser = asyncHandler(async (req, res) => {
+  await UserModel.findByIdAndUpdate(req.user._id, {
+    $set: {
+      refreshToken: "",
+    },
+
+  });
+});
+
+export { registerUser, loginUser, logoutUser };
