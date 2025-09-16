@@ -1,15 +1,19 @@
 import { Router } from "express";
 import {
+  changeCurrentPassword,
   forgotPasswordRequest,
+  getCurrentUser,
   loginUser,
   logoutUser,
   refreshAccessToken,
   registerUser,
+  resendEmailVerification,
   resetForgotPassword,
   verifyEmail,
 } from "../controllers/auth.controllers.js";
 import {
   forgotPasswordValidator,
+  passwordChangeValidator,
   resetForgotPasswordValidator,
   userLoginValidator,
   userRegisterValidator,
@@ -40,5 +44,18 @@ authRouter.post(
 
 // secured/protected routes
 authRouter.post("/logout", verifyJWT, logoutUser);
+authRouter.post("/current-user", verifyJWT, getCurrentUser);
+authRouter.post(
+  "/change-password",
+  verifyJWT,
+  passwordChangeValidator(),
+  validate,
+  changeCurrentPassword
+);
+authRouter.post(
+  "/resend-email-verification",
+  verifyJWT,
+  resendEmailVerification
+);
 
 export default authRouter;
